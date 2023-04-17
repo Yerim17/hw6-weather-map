@@ -50,8 +50,35 @@ searchWeather(cityName)
           $("#temp").text(res.main.temp)
           $("#wind").text(res.wind.speed)
           $("#humidity").text(res.main.humidity)
+          var lon = res.coord.lon
+          var lat = res.coord.lat
+          search5dayweather(lon,lat)
         }
 
       });
     }
 });
+function search5dayweather(lon,lat) {
+      
+  $.ajax({
+    url:
+      "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+      lat +
+      "&lon="+ lon+"&appid=915689ad0447cc832e74563ad3f9a509&units=imperial",
+    type: "get",
+    success: function(res){
+      console.log(res)
+      for (var i =0;i <res.list.length; i+=8){
+        $("#day-1-temp").text("humidity: " +res.list[0].main.humidity)
+
+        $("#day-2-temp").text(res.list[8].main.temp)
+        $("#day-3-temp").text(res.list[16].main.temp)
+        $("#day-4-temp").text(res.list[24].main.temp)
+        $("#day-5-temp").text(res.list[32].main.temp)
+      }
+      
+    }
+
+  });
+}
+
